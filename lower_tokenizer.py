@@ -1,44 +1,30 @@
-import nltk
-from nltk.tokenize import word_tokenize
-from nltk.corpus import stopwords
+"""Token helpers with no downloads or demonstration side effects at import time."""
+from nltk.tokenize import TreebankWordTokenizer
 from nltk.stem.porter import PorterStemmer
 
-nltk.download('stopwords')
 
-
-# This is a function that will tokenize a sentence into lowercase words
 def lower_tokenizer(sentence: str):
-    tokens = word_tokenize(sentence)
-    lower_tokens = []
-    for w in tokens:
-        lower_tokens.append(w.lower())
-    return lower_tokens
+    return [token.lower() for token in TreebankWordTokenizer().tokenize(sentence)]
 
 
+def sp_remover(arr: list, stop_words=None):
+    """Accept a supplied stop list, or use an explicitly installed NLTK corpus."""
+    if stop_words is None:
+        from nltk.corpus import stopwords
+        try:
+            stop_words = stopwords.words("english")
+        except LookupError as error:
+            raise LookupError("Install stopwords with `python -m nltk.downloader stopwords`, or pass stop_words explicitly.") from error
+    excluded = set(stop_words)
+    return [word for word in arr if word not in excluded]
 
-# This is a function that will remove all stopwords in a list of words
-def sp_remover(arr: list):
-    stop_words = set(stopwords.words('english'))
-    arr = [w for w in arr if not w in stop_words]
-    return arr
 
-
-
-# This is a function that will stem all words in a list of words
 def word_stemmer(arr: list):
-    porter = PorterStemmer()
-    stems = []
-    for t in arr:    
-        stems.append(porter.stem(t))
-    return stems
+    stemmer = PorterStemmer()
+    return [stemmer.stem(word) for word in arr]
 
 
-
-# Examples:
-ex = "THIS IS WHAT IT IS GOING TO BE"
-tokens = lower_tokenizer(ex) # tokens: ['this', 'is', 'what', 'it', 'is', 'going', 'to', 'be']
-after_removal = sp_remover(tokens) # after_removal: ['going']
-stems = word_stemmer(after_removal) # stems: ['go']
-print(tokens)
-print(after_removal)
-print(stems)
+if __name__ == "__main__":
+    tokens = lower_tokenizer("THIS IS WHAT IT IS GOING TO BE")
+    filtered = sp_remover(tokens, {"this", "is", "what", "it", "to", "be"})
+    print(tokens, filtered, word_stemmer(filtered), sep="\n")

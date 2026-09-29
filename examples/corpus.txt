@@ -1,0 +1,15 @@
+research teams run experiments and analyze data
+research teams test models with reproducible experiments
+scientists analyze data and compare experiment results
+scientists run simulations and record results
+engineers build software and write tests
+engineers test software and fix defects
+software tests check models and validate results
+research models describe patterns in data
+students analyze data with software tools
+students run experiments and record data
+teams compare models and discuss results
+reproducible experiments use fixed inputs and record outputs
+software tools help researchers analyze experiment outputs
+reliable software records results and checks inputs
+researchers share methods and compare reproducible results
