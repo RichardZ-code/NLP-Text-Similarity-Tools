@@ -1,0 +1,8 @@
+data pipelines process files and validate results
+data workflows cache results and process files
+research experiments use data and reproducible workflows
+reproducible experiments validate results and record data
+software tests validate results and check files
+software pipelines run tests and process data
+cache entries store results and reuse files
+workflow tests check cache entries and results
